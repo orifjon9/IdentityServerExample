@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServerHost.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IdentityServerHost.Models;
+using IdentityServerHost.Areas.Identity.Pages.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace IdentityServerHost
 {
@@ -37,10 +40,11 @@ namespace IdentityServerHost
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-			ApplicationUser
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
+
 //#elif (OrganizationalAuth)
 //            services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
 //                .AddAzureAD(options => Configuration.Bind("AzureAd", options));
@@ -48,7 +52,10 @@ namespace IdentityServerHost
 //            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
 //                .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
 
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<IEmailSender, EmailSender>();
+
+			services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +72,7 @@ namespace IdentityServerHost
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

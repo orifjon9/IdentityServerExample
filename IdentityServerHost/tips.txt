@@ -1,0 +1,6 @@
+// run migrations
+dotnet ef database update
+
+
+// command generate account pages
+dotnet aspnet-codegenerator identity -dc IdentityServerHost.Data.ApplicationDbContext --files "Account.Register;Account.Login;Account.Logout"
