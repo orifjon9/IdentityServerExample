@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerHost", "Ident
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrvHost", "IdSrvHost\IdSrvHost.csproj", "{4F5FB6E2-7EB3-43EB-9399-B996F6F12CA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{614410E0-DEAD-40CA-9EEE-931B06BECA25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{4F5FB6E2-7EB3-43EB-9399-B996F6F12CA5}.Release|x64.Build.0 = Release|Any CPU
 		{4F5FB6E2-7EB3-43EB-9399-B996F6F12CA5}.Release|x86.ActiveCfg = Release|Any CPU
 		{4F5FB6E2-7EB3-43EB-9399-B996F6F12CA5}.Release|x86.Build.0 = Release|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Debug|x64.Build.0 = Debug|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Debug|x86.Build.0 = Debug|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Release|x64.ActiveCfg = Release|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Release|x64.Build.0 = Release|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Release|x86.ActiveCfg = Release|Any CPU
+		{614410E0-DEAD-40CA-9EEE-931B06BECA25}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
