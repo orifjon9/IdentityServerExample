@@ -26,8 +26,8 @@ namespace IdSrvHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("IdentityServer"));
+                //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -37,6 +37,14 @@ namespace IdSrvHost
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddIdentityServer()
+                    .AddDeveloperSigningCredential()
+                    .AddTestUsers(Config.GetTestUsers())
+                    .AddInMemoryClients(Config.GetClients())
+                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                    .AddInMemoryApiResources(Config.GetApiResources())
+                    .AddAspNetIdentity<ApplicationUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +63,8 @@ namespace IdSrvHost
 
             app.UseStaticFiles();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
+            app.UseIdentityServer();
 
             app.UseMvc(routes =>
             {
