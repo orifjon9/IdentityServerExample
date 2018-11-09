@@ -16,14 +16,15 @@ namespace IdSrvHost
                 {
                     ClientId = "mvc",
                     ClientName = "MVC App",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    ClientSecrets = { new Secret("secret".ToSha256()) },
 
                     RequireConsent = false,
 
                     RedirectUris = { "http://localhost:5002/signin-oidc" },
                     PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
 
-                    AllowedScopes = { "openid", "email", "office", "api1" } 
+                    AllowedScopes = { "openid", "email", "profile", "office", "api1" } 
                 }
             };
 
@@ -61,6 +62,10 @@ namespace IdSrvHost
                 }
             };
 
-        public static IEnumerable<ApiResource> GetApiResources() => new List<ApiResource>();
+        public static IEnumerable<ApiResource> GetApiResources() 
+            => new List<ApiResource>
+        {
+            new ApiResource("api1")
+        };
     }
 }

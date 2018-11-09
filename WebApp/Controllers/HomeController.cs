@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 
@@ -38,6 +39,20 @@ namespace WebApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Login()
+        {
+            return Challenge(new AuthenticationProperties {
+                RedirectUri = "/Home/Index"
+            }, "oidc");
+        }
+
+        public IActionResult Logout()
+        {
+            return SignOut(new AuthenticationProperties {
+                RedirectUri = "/Home/Index"
+            }, "Cookies", "oidc");
         }
     }
 }
