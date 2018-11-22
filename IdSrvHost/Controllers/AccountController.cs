@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using IdSrvHost.Models;
 using IdSrvHost.Models.AccountViewModels;
 using IdSrvHost.Services;
+using Microsoft.AspNetCore.WebSockets.Internal;
+using IdentityServer4.Services;
 
 namespace IdSrvHost.Controllers
 {
@@ -22,20 +24,24 @@ namespace IdSrvHost.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+		private readonly IIdentityServerInteractionService _interaction;
+		private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+			IIdentityServerInteractionService interaction)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
-        }
+			_interaction = interaction;
+
+		}
 
         [TempData]
         public string ErrorMessage { get; set; }
@@ -242,15 +248,40 @@ namespace IdSrvHost.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+		[ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
+			_logger.LogInformation("User logged out.");
 
-        [HttpPost]
+			return RedirectToAction(nameof(HomeController.Index), "Home");
+		}
+
+		[AllowAnonymous]
+		[HttpGet]
+		public async Task<IActionResult> Logout(string logoutId, string returnUrl = null)
+		{
+			await _signInManager.SignOutAsync();
+			_logger.LogInformation("User logged out.");
+
+
+			if (returnUrl == null && !string.IsNullOrEmpty(logoutId))
+			{
+				var logoutRequest = await _interaction.GetLogoutContextAsync(logoutId);
+
+				return Redirect(logoutRequest.PostLogoutRedirectUri);
+			} else if (returnUrl != null)
+			{
+				return LocalRedirect(returnUrl);
+			}
+			else
+			{
+				return RedirectToAction(nameof(HomeController.Index), "Home");
+			}
+		}
+
+
+		[HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)

@@ -51,8 +51,8 @@ namespace WebApp.Controllers
         public IActionResult Logout()
         {
             return SignOut(new AuthenticationProperties {
-                RedirectUri = "/Home/Index"
-            }, "Cookies", "oidc");
+				RedirectUri = "/Home/Index"
+			}, "Cookies", "oidc");
         }
     }
 }
